@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap');
 
 .bgvid {
+    background-image: url("/static/ekg.gif")
     top: 50vh;
     left: 50vw;
     transform: translate(-50%, -50%);
