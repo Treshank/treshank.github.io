@@ -3,21 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <title>Treshank</title>
-    <script src="https://aframe.io/releases/1.0.0/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <!-- we import arjs version without NFT but with marker + location based support -->
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <script src="static/js/aframe-ar.js"></script>
+    <style type="text/css">
+        @font-face {
+            font-family: "Cuprum SemiBold";
+            src: url("static/fonts/Cuprum-SemiBold.ttf");
+
+        }
+    </style>
+    <script>
+
+        // Rounded rectangle
+        AFRAME.registerGeometry('rounded-rectangle', {
+            schema: {
+                width: {default: 1, min: 0},
+                height: {default: 0.2, min: 0},
+                radius: {default: 0.1, min: 0, max: 0.5}
+            },
+
+            init: function (data) {
+                var width = data.width;
+                var height = data.height;
+                var radius = data.radius;
+                var curveSegments = 32;
+
+                var shape = new THREE.Shape();
+                shape.moveTo(0, radius);
+                shape.lineTo(0, height - radius);
+                shape.quadraticCurveTo(0, height, radius, height);
+                shape.lineTo(width - radius, height);
+                shape.quadraticCurveTo(width, height, width, height - radius);
+                shape.lineTo(width, radius);
+                shape.quadraticCurveTo(width, 0, width - radius, 0);
+                shape.lineTo(radius, 0);
+                shape.quadraticCurveTo(0, 0, 0, radius);
+
+                this.geometry = new THREE.ShapeGeometry(shape, curveSegments);
+            }
+        });
+
+        AFRAME.registerComponent("linkedin-listener",{
+            init: function(){
+                console.log("Init")
+                this.el.addEventListener("click", function(){
+                    window.location.href = "https://in.linkedin.com/in/treshank-prasad-3627a1168";
+                });
+            }
+        })
+    </script>
 </head>
 <body>
     <a-scene embedded arjs>
     <a-marker preset="hiro">
-        <!-- we use cors proxy to avoid cross-origin problems ATTENTION! you need to set up your server -->
         <a-entity
-        position="0 0 0"
-        scale="0.05 0.05 0.05"
-        gltf-model="https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/scene.gltf"
-        ></a-entity>
+            geometry="primitive: circle"
+            scale="0.5 0.5 0.5"
+            position="1.25 0 0"
+            rotation="-90 0 0"
+            material="src: static/images/profile-picture.jpeg;"
+        >
+        </a-entity>
+        <a-text
+            value="Treshank\nPrasad"
+            rotation="-90 0 0"
+            position="2 0 0.2"
+            negate="false"
+            font="static/fonts/Cuprum-SemiBold-msdf/Cuprum-SemiBold-msdf.json"
+            font-image="static/fonts/Cuprum-SemiBold-msdf/Cuprum-SemiBold.png"
+        >
+        </a-text>
+        <a-entity
+            linkedin-listener
+            cursor="rayOrigin: mouse"
+            geometry="primitive: rounded-rectangle"
+            position="2 0 1"
+            rotation="-90 0 0"
+            material="color: #ffffff"
+            ></a-plane>
+            <a-text
+                value="About Me"
+                position="0.1 0.15 0.01"
+                scale="0.5 0.5 0.5"
+                rotation="0 0 0"
+                color="#000000"></a-text>
+        </a-entity>
+
     </a-marker>
-    <a-entity camera></a-entity>
+        <a-entity camera></a-entity>
     </a-scene>
+
+<script>
+    // document.querySelector('#linkedin').addEventListener('click', function () {
+    //     window.location.href = "https://in.linkedin.com/in/treshank-prasad-3627a1168";
+    // });
+</script>
 </body>
 </html>
